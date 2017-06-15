@@ -27,7 +27,7 @@ function Head () {
  */
 Head.prototype.title = function (title) {
   this._title = title
-  this._titleIndex = this._index++
+  this._titleIndex = this._tags.length
   return this
 }
 
@@ -80,11 +80,11 @@ Head.prototype.meta = function (attrs) {
  * @return {this}
  */
 Head.prototype._tag = function (name, attrs) {
-  var selector = this._getSelector(name, attrs)
-  var selectors = this._selectors
-
-  if (!selectors[selector]) this._index++
-  selectors[selector] = attrs
+  var key = this._getKey(name, attrs)
+  var keys = this._keys
+  var tags = this._tags
+  var index = keys[key] = keys[key] || tags.length
+  tags.splice(index, 1, attrs)
   return this
 }
 
@@ -93,9 +93,10 @@ Head.prototype._tag = function (name, attrs) {
  * Resets all options for the page.
  */
 Head.prototype._reset = function () {
+  this._tags = []
+  this._keys = Object.create(null)
   this._title = ''
-  this._selectors = {}
-  this._index = this._titleIndex = 0
+  this._titleIndex = 0
 }
 
 /**
@@ -106,18 +107,18 @@ Head.prototype._reset = function () {
  * @param {object} attrs - attributes containing keys for the element.
  * @return {string}
  */
-Head.prototype._getSelector = function (tag, attrs) {
+Head.prototype._getKey = function (tag, attrs) {
   var keys = KEYS[tag]
   if (!keys) return
 
-  var selector = tag
+  var str = tag
   var i = keys.length
   var key, val
   for (;i--;) {
     key = keys[i]
     val = attrs[key]
-    selector += '[' + key + (val ? '=' + JSON.stringify(val) : '') + ']'
+    str += '[' + key + (val ? '=' + JSON.stringify(val) : '') + ']'
   }
 
-  return selector
+  return str
 }

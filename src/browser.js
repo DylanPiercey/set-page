@@ -11,22 +11,23 @@ Page.prototype.render = function () {
   if (document.title !== this._title) document.title = this._title
 
   // Update existing nodes, and remove old ones.
-  var selectors = this._selectors
+  var tags = this._tags
+  var keys = this._keys
   var head = document.head
   var $next = head.firstChild
-  var $el, selector, attrs, attr, val, nodeName
+  var $el, key, index, attrs, attr, val, nodeName
   var updated = {}
 
   while ($next) {
     $el = $next
     $next = $el.nextSibling
     nodeName = $el.nodeName.toLowerCase()
-    selector = this._getSelector(nodeName, $el.attributes)
-    if (!selector) continue
+    key = this._getKey(nodeName, $el.attributes)
+    if (!key) continue
 
-    attrs = selectors[selector]
+    attrs = tags[keys[key]]
     if (attrs) {
-      updated[selector] = true
+      updated[key] = true
       updateAttrs($el, attrs)
     } else {
       head.removeChild($el)
@@ -34,10 +35,11 @@ Page.prototype.render = function () {
   }
 
   // Add new nodes.
-  for (selector in selectors) {
-    if (updated[selector]) continue
-    $el = document.createElement(selector.slice(0, selector.indexOf('[')))
-    attrs = selectors[selector]
+  for (key in keys) {
+    if (updated[key]) continue
+    $el = document.createElement(key.slice(0, key.indexOf('[')))
+    index = keys[key]
+    attrs = tags[index]
     for (attr in attrs) {
       val = attrs[attr]
       if (
@@ -49,7 +51,8 @@ Page.prototype.render = function () {
       $el.setAttribute(attr, val)
     }
 
-    head.appendChild($el)
+    // Insert new element at proper position.
+    head.insertBefore($el, head.children[index + 1])
   }
 
   // Reset all tags

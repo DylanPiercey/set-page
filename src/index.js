@@ -10,13 +10,14 @@ var Page = module.exports = require('./base')
  * @return {string}
  */
 Page.prototype.renderToString = function () {
-  var selectors = this._selectors
+  var tags = this._tags
+  var keys = this._keys
   var parts = []
   var tag
 
-  for (var selector in selectors) {
-    tag = selector.slice(0, selector.indexOf('['))
-    parts.push(toHTML(tag, selectors[selector]))
+  for (var key in keys) {
+    tag = key.slice(0, key.indexOf('['))
+    parts.push(toHTML(tag, tags[keys[key]]))
   }
 
   // Add title manually at proper index.
