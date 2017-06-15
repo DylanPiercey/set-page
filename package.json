@@ -1,0 +1,49 @@
+{
+  "name": "set-head",
+  "description": "Isomorphic <head> management library.",
+  "version": "1.0.0",
+  "author": "Dylan Piercey <pierceydylan@gmail.com>",
+  "browser": "src/browser.js",
+  "bugs": "https://github.com/DylanPiercey/set-head/issues",
+  "dependencies": {
+    "escape-html": "^1.0.3"
+  },
+  "devDependencies": {
+    "jsdom": "^11.0.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^3.4.2",
+    "rill": "^5.0.4",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.2"
+  },
+  "homepage": "https://github.com/DylanPiercey/set-head",
+  "keywords": [
+    "document",
+    "head",
+    "isomorphic",
+    "render",
+    "rill",
+    "set-head",
+    "universal"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DylanPiercey/set-head"
+  },
+  "scripts": {
+    "lint": "standard --verbose | snazzy",
+    "test": "npm run lint && mocha -r jsdom-global/register ./test/**/*.test.js"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "it",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach"
+    ]
+  }
+}
