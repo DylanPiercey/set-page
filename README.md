@@ -29,6 +29,8 @@ Isomorphic `<head>` updating and rendering utility.
 
 # Installation
 
+[![Join the chat at https://gitter.im/DylanPiercey/set-head](https://badges.gitter.im/DylanPiercey/set-head.svg)](https://gitter.im/DylanPiercey/set-head?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ```console
 npm install set-head
 ```
