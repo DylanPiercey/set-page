@@ -3,8 +3,8 @@
 // List of indexable keys for specific types of elements.
 var KEYS = {
   base: ['href'],
-  link: ['href', 'rel'],
   script: ['type', 'src'],
+  link: ['href', 'rel', 'media'],
   meta: ['name', 'property', 'http-equiv', 'charset']
 }
 
