@@ -54,9 +54,6 @@ Page.prototype.render = function () {
     // Insert new element at proper position.
     head.insertBefore($el, head.children[index + 1])
   }
-
-  // Reset all tags
-  this._reset()
 }
 
 /**

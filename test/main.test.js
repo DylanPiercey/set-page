@@ -244,8 +244,7 @@ describe('Page', function () {
     })
 
     it('should set all', function () {
-      var page = new PageDocument()
-      page
+      new PageDocument()
         .title('Hello')
         .link({ rel: 'stylesheet', href: 'index.css' })
         .base({ href: '/admin', target: '_blank' })
@@ -254,7 +253,7 @@ describe('Page', function () {
         .render()
       assert.equal(document.head.innerHTML, '<title>Hello</title><link rel="stylesheet" href="index.css"><base href="/admin" target="_blank"><meta name="description" content="Hello"><script src="index.js"></script>')
 
-      page
+      new PageDocument()
         .title('Hello')
         .link({ rel: 'stylesheet', href: 'index.css' })
         .base({ href: '/admin', target: '_blank' })

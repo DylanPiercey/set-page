@@ -23,8 +23,6 @@ Page.prototype.renderToString = function () {
   // Add title manually at proper index.
   if (this._title) parts.splice(this._titleIndex, 0, '<title>' + this._title + '</title>')
 
-  this._reset()
-
   return parts.join('')
 }
 

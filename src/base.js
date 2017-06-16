@@ -16,7 +16,10 @@ module.exports = Head
  * Creates a new renderable <head>.
  */
 function Head () {
-  this._reset()
+  this._tags = []
+  this._keys = Object.create(null)
+  this._title = ''
+  this._titleIndex = 0
 }
 
 /**
@@ -86,17 +89,6 @@ Head.prototype._tag = function (name, attrs) {
   var index = keys[key] = keys[key] || tags.length
   tags.splice(index, 1, attrs)
   return this
-}
-
-/**
- * @private
- * Resets all options for the page.
- */
-Head.prototype._reset = function () {
-  this._tags = []
-  this._keys = Object.create(null)
-  this._title = ''
-  this._titleIndex = 0
 }
 
 /**
