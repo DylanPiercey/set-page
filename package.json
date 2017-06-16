@@ -1,7 +1,7 @@
 {
   "name": "set-head",
   "description": "Isomorphic <head> management library.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "browser": "src/browser.js",
   "bugs": "https://github.com/DylanPiercey/set-head/issues",
