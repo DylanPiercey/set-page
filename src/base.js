@@ -109,7 +109,7 @@ Head.prototype._getKey = function (tag, attrs) {
   for (;i--;) {
     key = keys[i]
     val = attrs[key]
-    str += '[' + key + (val ? '=' + JSON.stringify(val) : '') + ']'
+    str += '[' + key + (val ? '=' + JSON.stringify(val.value || val) : '') + ']'
   }
 
   return str
