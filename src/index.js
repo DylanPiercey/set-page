@@ -2,14 +2,16 @@
 
 var OPEN_TAGS = { script: true }
 var escape = require('escape-html')
-var Page = module.exports = require('./base')
+
+// Expose base module and add html rendering.
+module.exports = exports = require('./base')
 
 /**
  * Takes the current <head> settings and renders all of the children to an html string.
  *
  * @return {string}
  */
-Page.prototype.renderToString = function () {
+exports.prototype.renderToString = function () {
   var tags = this._tags
   var keys = this._keys
   var parts = []

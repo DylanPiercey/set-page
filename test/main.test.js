@@ -5,6 +5,14 @@ var PageHTML = require('../src/index')
 var PageDocument = require('../src/browser')
 
 describe('Page', function () {
+  describe('shared', function () {
+    it('should expose supported tags', function () {
+      const expected = ['base', 'script', 'link', 'meta', 'title']
+      assert.deepEqual(PageHTML.TAGS, expected)
+      assert.deepEqual(PageDocument.TAGS, expected)
+    })
+  })
+
   describe('server', function () {
     it('should set <title>', function () {
       var page = new PageHTML()

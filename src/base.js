@@ -9,7 +9,10 @@ var KEYS = {
 }
 
 // Expose base class.
-module.exports = Head
+module.exports = exports = Head
+
+// List of supported tags handled by set-head.
+exports.TAGS = Object.keys(KEYS).concat('title')
 
 /**
  * @constructor

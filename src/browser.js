@@ -1,12 +1,13 @@
 'use strict'
 
-var Page = module.exports = require('./base')
+// Expose base module and add dom rendering.
+module.exports = exports = require('./base')
 
 /**
  * Updates the document with the current head options.
  * This will algorithm will avoid re-inserting nodes to prevent any browser issues.
  */
-Page.prototype.render = function () {
+exports.prototype.render = function () {
   // Update document.title directly.
   if (document.title !== this._title) document.title = this._title
 
