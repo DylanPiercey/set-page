@@ -49,6 +49,11 @@ head
   .meta({ name: 'description' content: 'Cool stuff' })
   .link({ rel: 'stylesheet', href: 'index.css' })
   .script({ async: true, src: 'index.js' })
+
+// You can also set attributes on the html and body elements.
+head
+  .html({ lang: 'en' })
+  .body({ class: 'loading' })
 ```
 
 ## Overriding
@@ -56,12 +61,14 @@ head
 `set-head` makes overriding default header elements easy. If you invoke head again later it will replace any existing similar element.
 The module uses special keying scheme found in [`./src/base.js`](https://github.com/DylanPiercey/set-head/blob/master/src/base.js#L4) under `const KEYS` to understand which elements to replace and which to add.
 
+For the `html` and `body` any provided attributes are merged (properties are not concatenated).
+
 ```js
 // Setting defaults somewhere (perhaps in a middleware or plugin.)
 head
   .title('My App')
   .meta({ name: 'author', content: 'Dylan Piercey' })
-  .meta({ name: 'description': content: 'Welcome to the site' })
+  .meta({ name: 'description', content: 'Welcome to the site' })
   .link({ rel: 'stylesheet', href: 'index.css' })
 
 // The later in a specific route you can continue chaining like so to override.
@@ -70,7 +77,7 @@ head
   .meta({ name: 'description', content: 'Sub page description' })
 
 // And then if we render we get (formatted for clarity)
-head.renderToString() === html`
+head.renderToString().head === html`
   <title>My App > My sub page</title>
   <meta name="author" content="Dylan Piercey">
   <meta name="description" content="Sub page description">
@@ -93,11 +100,12 @@ Server side rendering is accomplished by invoking `renderToString` after all of 
 
 ```js
 export default (req, res) => {
+  const parts = head.renderToString()
   res.end(`
     <!doctype html>
-    <html>
-      <head>${head.renderToString()}</head>
-      <body>
+    <html${parts.htmlAttributes}>
+      <head>${parts.head}</head>
+      <body${parts.bodyAttributes}>
         ...
       </body>
     </html>

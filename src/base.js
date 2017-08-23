@@ -7,19 +7,23 @@ var KEYS = {
   link: ['href', 'rel', 'media'],
   meta: ['name', 'property', 'http-equiv', 'charset']
 }
+var ROOT_TAGS = ['html', 'body']
+var HEAD_TAGS = Object.keys(KEYS)
+var ALL_TAGS = ROOT_TAGS.concat(HEAD_TAGS, 'title')
+var head = Head.prototype
 
 // Expose base class.
 module.exports = exports = Head
-
 // List of supported tags handled by set-head.
-exports.TAGS = Object.keys(KEYS).concat('title')
+exports.TAGS = ALL_TAGS
 
 /**
  * @constructor
  * Creates a new renderable <head>.
  */
 function Head () {
-  this._tags = []
+  this._headTags = []
+  this._rootTags = {}
   this._keys = Object.create(null)
   this._title = ''
   this._titleIndex = 0
@@ -31,50 +35,10 @@ function Head () {
  * @param {string} title - the new document title.
  * @return {this}
  */
-Head.prototype.title = function (title) {
+head.title = function (title) {
   this._title = title
-  this._titleIndex = this._tags.length
+  this._titleIndex = this._headTags.length
   return this
-}
-
-/**
- * Saves a <base> element to be rendered.
- *
- * @param {object} attrs - the attributes for the element.
- * @return {this}
- */
-Head.prototype.base = function (attrs) {
-  return this._tag('base', attrs)
-}
-
-/**
- * Saves a <link> element to be rendered.
- *
- * @param {object} attrs - the attributes for the element.
- * @return {this}
- */
-Head.prototype.link = function (attrs) {
-  return this._tag('link', attrs)
-}
-
-/**
- * Saves a <script> element to be rendered.
- *
- * @param {object} attrs - the attributes for the element.
- * @return {this}
- */
-Head.prototype.script = function (attrs) {
-  return this._tag('script', attrs)
-}
-
-/**
- * Saves a <meta> element to be rendered.
- *
- * @param {object} attrs - the attributes for the element.
- * @return {this}
- */
-Head.prototype.meta = function (attrs) {
-  return this._tag('meta', attrs)
 }
 
 /**
@@ -85,10 +49,10 @@ Head.prototype.meta = function (attrs) {
  * @param {object} attrs - the html attributes for the tag.
  * @return {this}
  */
-Head.prototype._tag = function (name, attrs) {
+head._tag = function (name, attrs) {
   var key = this._getKey(name, attrs)
   var keys = this._keys
-  var tags = this._tags
+  var tags = this._headTags
   var index = keys[key] = keys[key] || tags.length
   tags.splice(index, 1, attrs)
   return this
@@ -102,7 +66,7 @@ Head.prototype._tag = function (name, attrs) {
  * @param {object} attrs - attributes containing keys for the element.
  * @return {string}
  */
-Head.prototype._getKey = function (tag, attrs) {
+head._getKey = function (tag, attrs) {
   var keys = KEYS[tag]
   if (!keys) return
 
@@ -117,3 +81,20 @@ Head.prototype._getKey = function (tag, attrs) {
 
   return str
 }
+
+// Add methods for each root tag.
+ROOT_TAGS.forEach(function (tag) {
+  head[tag] = function (attrs) {
+    var tags = this._rootTags
+    var prev = tags[tag] = tags[tag] || {}
+    for (var key in attrs) prev[key] = attrs[key]
+    return this
+  }
+})
+
+// Add methods for each head tag.
+HEAD_TAGS.forEach(function (tag) {
+  head[tag] = function (attrs) {
+    return this._tag(tag, attrs)
+  }
+})

@@ -2,19 +2,44 @@
 
 // Expose base module and add dom rendering.
 module.exports = exports = require('./base')
+var doc = document
+var head = exports.prototype
 
 /**
  * Updates the document with the current head options.
  * This will algorithm will avoid re-inserting nodes to prevent any browser issues.
  */
-exports.prototype.render = function () {
-  // Update document.title directly.
-  if (document.title !== this._title) document.title = this._title
+head.render = function () {
+  this._renderTitle()
+  this._renderRoots()
+  this._renderHead()
+}
 
-  // Update existing nodes, and remove old ones.
-  var tags = this._tags
+/**
+ * Updates the document title.
+ */
+head._renderTitle = function () {
+  if (doc.title !== this._title) {
+    doc.title = this._title
+  }
+}
+
+/**
+ * Updates attributes on root elements.
+ */
+head._renderRoots = function () {
+  var tags = this._rootTags
+  if (tags.html) updateAttrs(doc.documentElement, tags.html)
+  if (tags.body) updateAttrs(doc.body, tags.body)
+}
+
+/**
+ * Updates the head elements children.
+ */
+head._renderHead = function () {
+  var tags = this._headTags
   var keys = this._keys
-  var head = document.head
+  var head = doc.head
   var $next = head.firstChild
   var $el, key, index, attrs, attr, val, nodeName
   var updated = {}
@@ -38,7 +63,7 @@ exports.prototype.render = function () {
   // Add new nodes.
   for (key in keys) {
     if (updated[key]) continue
-    $el = document.createElement(key.slice(0, key.indexOf('[')))
+    $el = doc.createElement(key.slice(0, key.indexOf('[')))
     index = keys[key]
     attrs = tags[index]
     for (attr in attrs) {
@@ -65,6 +90,7 @@ exports.prototype.render = function () {
  * @param {object} attrs - the new attributes for the element.
  */
 function updateAttrs ($el, attrs) {
+  var $attrs = $el.attributes
   var attr, val
 
   // Add new attributes.
@@ -74,19 +100,19 @@ function updateAttrs ($el, attrs) {
     if (
       val == null ||
       val === false ||
-      $el.getAttribute(attr) !== val
+      $el.getAttribute(attr) === val
     ) continue
+
     $el.setAttribute(attr, val)
   }
 
   // Remove old ones.
-  for (attr in $el.attributes) {
+  for (var i = $attrs.length; i--;) {
+    attr = $attrs[i].name
     val = attrs[attr]
-
     if (
-      val != null ||
-      val !== false ||
-      !$el.hasAttribute(attr)
+      val != null &&
+      val !== false
     ) continue
 
     $el.removeAttribute(attr)

@@ -5,27 +5,35 @@ var escape = require('escape-html')
 
 // Expose base module and add html rendering.
 module.exports = exports = require('./base')
+var head = exports.prototype
 
 /**
  * Takes the current <head> settings and renders all of the children to an html string.
  *
  * @return {string}
  */
-exports.prototype.renderToString = function () {
-  var tags = this._tags
+head.renderToString = function () {
+  var rootTags = this._rootTags
+  var headTags = this._headTags
   var keys = this._keys
   var parts = []
   var tag
 
   for (var key in keys) {
     tag = key.slice(0, key.indexOf('['))
-    parts.push(toHTML(tag, tags[keys[key]]))
+    parts.push(tagToHtml(tag, headTags[keys[key]]))
   }
 
   // Add title manually at proper index.
-  if (this._title) parts.splice(this._titleIndex, 0, '<title>' + this._title + '</title>')
+  if (this._title) {
+    parts.splice(this._titleIndex, 0, '<title>' + this._title + '</title>')
+  }
 
-  return parts.join('')
+  return {
+    htmlAttributes: attrsToHtml(rootTags.html),
+    bodyAttributes: attrsToHtml(rootTags.body),
+    head: parts.join('')
+  }
 }
 
 /**
@@ -36,21 +44,32 @@ exports.prototype.renderToString = function () {
  * @param {object} attrs - the attributes for the element.
  * @return {string}
  */
-function toHTML (tag, attrs) {
+function tagToHtml (tag, attrs) {
+  return (
+    '<' + tag + attrsToHtml(attrs) + '>' + (
+      OPEN_TAGS[tag] ? '</' + tag + '>' : ''
+    )
+  )
+}
+
+/**
+ * @private
+ * Builds to html for an attrs object.
+ *
+ * @param {object} attrs - the attributes for the element.
+ * @return {string}
+ */
+function attrsToHtml (attrs) {
   var key, attr
-  var attributes = ''
+  var result = ''
 
   // Build attributes string.
   for (key in attrs) {
     attr = attrs[key]
     if (attr == null || attr === false) continue
-    if (attr === true) attributes += ' ' + key
-    else attributes += ' ' + key + '="' + escape(attr) + '"'
+    if (attr === true) result += ' ' + key
+    else result += ' ' + key + '="' + escape(attr) + '"'
   }
 
-  return (
-    '<' + tag + attributes + '>' + (
-      OPEN_TAGS[tag] ? '</' + tag + '>' : ''
-    )
-  )
+  return result
 }
