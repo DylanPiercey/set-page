@@ -1,10 +1,10 @@
 {
-  "name": "set-head",
-  "description": "Isomorphic <head> management library.",
+  "name": "set-page",
+  "description": "Framework agnostic, isomorphic `<html>`, `<body` and `<head>` rendering utility.",
   "version": "2.0.2",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "browser": "src/browser.js",
-  "bugs": "https://github.com/DylanPiercey/set-head/issues",
+  "bugs": "https://github.com/DylanPiercey/set-page/issues",
   "dependencies": {
     "escape-html": "^1.0.3"
   },
@@ -16,21 +16,25 @@
     "snazzy": "^7.0.0",
     "standard": "^10.0.2"
   },
-  "homepage": "https://github.com/DylanPiercey/set-head",
+  "homepage": "https://github.com/DylanPiercey/set-page",
   "keywords": [
     "document",
     "head",
     "isomorphic",
     "render",
     "rill",
+    "set-page",
     "set-head",
+    "page",
+    "body",
+    "html",
     "universal"
   ],
   "license": "MIT",
   "main": "src/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DylanPiercey/set-head"
+    "url": "https://github.com/DylanPiercey/set-page"
   },
   "scripts": {
     "lint": "standard --verbose | snazzy",

@@ -10,18 +10,18 @@ var KEYS = {
 var ROOT_TAGS = ['html', 'body']
 var HEAD_TAGS = Object.keys(KEYS)
 var ALL_TAGS = ROOT_TAGS.concat(HEAD_TAGS, 'title')
-var head = Head.prototype
+var page = Page.prototype
 
 // Expose base class.
-module.exports = exports = Head
-// List of supported tags handled by set-head.
+module.exports = exports = Page
+// List of supported tags handled by set-page.
 exports.TAGS = ALL_TAGS
 
 /**
  * @constructor
  * Creates a new renderable <head>.
  */
-function Head () {
+function Page () {
   this._headTags = []
   this._rootTags = {}
   this._keys = Object.create(null)
@@ -35,7 +35,7 @@ function Head () {
  * @param {string} title - the new document title.
  * @return {this}
  */
-head.title = function (title) {
+page.title = function (title) {
   this._title = title
   this._titleIndex = this._headTags.length
   return this
@@ -49,7 +49,7 @@ head.title = function (title) {
  * @param {object} attrs - the html attributes for the tag.
  * @return {this}
  */
-head._tag = function (name, attrs) {
+page._tag = function (name, attrs) {
   var key = this._getKey(name, attrs)
   var keys = this._keys
   var tags = this._headTags
@@ -66,7 +66,7 @@ head._tag = function (name, attrs) {
  * @param {object} attrs - attributes containing keys for the element.
  * @return {string}
  */
-head._getKey = function (tag, attrs) {
+page._getKey = function (tag, attrs) {
   var keys = KEYS[tag]
   if (!keys) return
 
@@ -84,7 +84,7 @@ head._getKey = function (tag, attrs) {
 
 // Add methods for each root tag.
 ROOT_TAGS.forEach(function (tag) {
-  head[tag] = function (attrs) {
+  page[tag] = function (attrs) {
     var tags = this._rootTags
     var prev = tags[tag] = tags[tag] || {}
     for (var key in attrs) prev[key] = attrs[key]
@@ -94,7 +94,7 @@ ROOT_TAGS.forEach(function (tag) {
 
 // Add methods for each head tag.
 HEAD_TAGS.forEach(function (tag) {
-  head[tag] = function (attrs) {
+  page[tag] = function (attrs) {
     return this._tag(tag, attrs)
   }
 })

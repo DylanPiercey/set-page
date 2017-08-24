@@ -5,14 +5,14 @@ var escape = require('escape-html')
 
 // Expose base module and add html rendering.
 module.exports = exports = require('./base')
-var head = exports.prototype
+var page = exports.prototype
 
 /**
- * Takes the current <head> settings and renders all of the children to an html string.
+ * Takes the current page settings and renders all of the children to an object with html strings.
  *
  * @return {string}
  */
-head.renderToString = function () {
+page.renderToString = function () {
   var rootTags = this._rootTags
   var headTags = this._headTags
   var keys = this._keys

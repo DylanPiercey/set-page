@@ -3,13 +3,13 @@
 // Expose base module and add dom rendering.
 module.exports = exports = require('./base')
 var doc = document
-var head = exports.prototype
+var page = exports.prototype
 
 /**
- * Updates the document with the current head options.
+ * Updates the document with the current page options.
  * This will algorithm will avoid re-inserting nodes to prevent any browser issues.
  */
-head.render = function () {
+page.render = function () {
   this._renderTitle()
   this._renderRoots()
   this._renderHead()
@@ -18,7 +18,7 @@ head.render = function () {
 /**
  * Updates the document title.
  */
-head._renderTitle = function () {
+page._renderTitle = function () {
   if (doc.title !== this._title) {
     doc.title = this._title
   }
@@ -27,7 +27,7 @@ head._renderTitle = function () {
 /**
  * Updates attributes on root elements.
  */
-head._renderRoots = function () {
+page._renderRoots = function () {
   var tags = this._rootTags
   if (tags.html) updateAttrs(doc.documentElement, tags.html)
   if (tags.body) updateAttrs(doc.body, tags.body)
@@ -36,7 +36,7 @@ head._renderRoots = function () {
 /**
  * Updates the head elements children.
  */
-head._renderHead = function () {
+page._renderHead = function () {
   var tags = this._headTags
   var keys = this._keys
   var head = doc.head
