@@ -19,13 +19,17 @@
   <a href="https://npmjs.org/package/set-head">
     <img src="https://img.shields.io/npm/dm/set-head.svg?style=flat-square" alt="Downloads"/>
   </a>
+  <!-- File size -->
+  <a href="https://github.com/rill-js/rill/blob/master/dist/rill.js">
+    <img src="https://badge-size.herokuapp.com/rill-js/rill/master/dist/rill.js?style=flat-square" alt="File size"/>
+  </a>
   <!-- Gitter Chat -->
   <a href="https://gitter.im/DylanPiercey/set-head">
     <img src="https://img.shields.io/gitter/room/DylanPiercey/set-head.svg?style=flat-square" alt="Gitter Chat"/>
   </a>
 </h1>
 
-Isomorphic `<head>` updating and rendering utility.
+Framework agnostic, isomorphic `<head>` updating and rendering utility.
 
 # Installation
 
