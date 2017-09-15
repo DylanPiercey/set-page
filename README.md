@@ -96,7 +96,7 @@ export default (req, res) => {
   res.end(`
     <!doctype html>
     <html${parts.htmlAttributes}>
-      <page>${parts.head}</page>
+      <head>${parts.head}</head>
       <body${parts.bodyAttributes}>
         ...
       </body>

@@ -11,7 +11,7 @@
   "devDependencies": {
     "jsdom": "^11.0.0",
     "jsdom-global": "^3.0.2",
-    "mocha": "^3.4.2",
+    "mocha": "^3.5.3",
     "rill": "^5.0.4",
     "snazzy": "^7.0.0",
     "standard": "^10.0.2"
